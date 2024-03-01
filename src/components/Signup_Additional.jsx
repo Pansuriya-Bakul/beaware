@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { collection, addDoc } from 'firebase/firestore';
-import { db } from './firebase/firebaseconfig';
-import './style/Signup_Additional.css';
+import { db } from '../firebase/firebaseconfig';
 
 const SignupAdditional = () => {
   const [name, setName] = useState('');
