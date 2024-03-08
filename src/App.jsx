@@ -1,18 +1,22 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
-import Signup from "./components/Signup";
+import SignUp from "./components/SignUp";
 import SignupAdditional from "./components/Signup_Additional";
 
+
 function App() {
+  if (window.location.pathname === '/') {
+    window.location.pathname = '/login';
+  }
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/Signup" element={<Signup />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/Signup_Additional" element={<SignupAdditional />} />
-          <Route exact path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </div>
     </BrowserRouter>

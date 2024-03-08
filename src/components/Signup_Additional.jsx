@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebaseconfig';
+import InputComponent from './Input';
+import { Row, Col } from 'react-bootstrap';
+import logo from '../style/logo.png';
+import login_vec from '../style/login-vec.png';
 
 const SignupAdditional = () => {
   const [name, setName] = useState('');
@@ -22,7 +26,6 @@ const SignupAdditional = () => {
     }
 
     try {
-
       const docRef = await addDoc(collection(db, 'users'), {
         email: email,
         password: password,
@@ -41,40 +44,52 @@ const SignupAdditional = () => {
   };
 
   return (
-    <div className="signup-additional-container">
-      <h2>Additional Details</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
+    <Row className='landing'>
+      <Col className='logo-container'>
+        <div className="logo-wrapper">
+          <img src={logo} alt="logo" />
+        </div>
+        <div className="vector-wrapper">
+          <img src={login_vec} alt="login-vector" />
+        </div>
+      </Col>
+      <Col className="form-container">
+        <div className="form-wrapper">
 
-        <label htmlFor="logoUrl">Logo URL:</label>
-        <input
-          type="text"
-          id="logoUrl"
-          value={logoUrl}
-          onChange={(e) => setLogoUrl(e.target.value)}
-          required
-        />
+          <h2>Additional Details</h2>
 
-        <label htmlFor="streamColor">Stream Color (Hex Code):</label>
-        <input
-          type="text"
-          id="streamColor"
-          value={streamColor}
-          onChange={(e) => setStreamColor(e.target.value)}
-          required
-        />
+          <form onSubmit={handleSubmit}>
+            <InputComponent
+              type={"text"}
+              input_id={"stream-name"}
+              placeholder={"Stream Name"}
+              label={"Stream Name"}
+              onChange={(e) => setName(e.target.value)}
+              required={true} />
 
-        {error && <div className="error">{error}</div>}
-        <button type="submit">Register</button>
-      </form>
-    </div>
+            <InputComponent
+              type={"text"}
+              input_id={"logo-url"}
+              placeholder={"Paste Logo URL"}
+              label={"Logo URL"}
+              onChange={(e) => setLogoUrl(e.target.value)}
+              required={true} />
+
+            <InputComponent
+              type={"text"}
+              input_id={"stream-color"}
+              placeholder={"Enter Color Hex"}
+              label={"Stream Color"}
+              onChange={(e) => setStreamColor(e.target.value)}
+              required={true} />
+
+            {error && <div className="error">{error}</div>}
+            <button className={'btn px-5 py-2 bg-color-sec'} type="submit"><span className='fs-7 text-uppercase fw-bold color-pri'>Sign Up</span></button>
+          </form>
+        </div>
+
+      </Col>
+    </Row>
   );
 };
 

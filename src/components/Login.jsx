@@ -3,7 +3,7 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/firebaseconfig';
-import InputComponent from './input';
+import InputComponent from './Input';
 import logo from '../style/logo.png'
 import login_vec from '../style/login-vec.png'
 import { Row, Col } from 'react-bootstrap';
@@ -22,18 +22,20 @@ const Login = () => {
 
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log('Logged in successfully!', userCredential.user.uid);
-
-
-      const usersRef = collection(db, 'users');
-      const q = query(usersRef, where('email', '==', email));
-      const querySnapshot = await getDocs(q);
-
-      if (querySnapshot.empty) {
-        setError('User not found. Please register.');
-      } else {
-        // Redirect to dashboard after successful login
+      if (userCredential.user.uid) {
         navigate('/dashboard');
       }
+
+      // const usersRef = collection(db, 'users');
+      // const q = query(usersRef, where('email', '==', email));
+      // const querySnapshot = await getDocs(q);
+
+      // if (querySnapshot.empty) {
+      //   setError('User not found. Please register.');
+      // } else {
+      //   // Redirect to dashboard after successful login
+      //   navigate('/dashboard');
+      // }
     } catch (error) {
       console.error('Error signing in:', error.message);
       setError('Invalid email or password.');
