@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../firebase/firebaseconfig';
+import { db } from '../firebase/config';
 import InputComponent from './Input';
 import { Row, Col } from 'react-bootstrap';
 import logo from '../style/logo.png';
