@@ -102,3 +102,7 @@ code {
 .bg-color-ter {
   background-color: #a6e4f6 important;
 }
+
+.error {
+  color: red;
+}

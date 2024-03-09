@@ -9,12 +9,15 @@ const StepOne = ({ setSuccess, setUserId }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSignUp1 = () => {
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
+
+    setLoading(true);
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -25,10 +28,10 @@ const StepOne = ({ setSuccess, setUserId }) => {
       }).catch((e) => {
         if (e.code === 'auth/email-already-in-use') {
           setError('Email already in use, Login instead.');
-          return;
         } else {
           setError('Failed to create user. Please try again.');
         }
+        setLoading(false);
       });
   };
 
@@ -41,6 +44,7 @@ const StepOne = ({ setSuccess, setUserId }) => {
         placeholder={"Enter Your Email"}
         label={"Email"}
         onChange={(e) => setEmail(e.target.value)}
+        disabled={loading}
         required={true} />
 
       <InputComponent
@@ -49,6 +53,7 @@ const StepOne = ({ setSuccess, setUserId }) => {
         placeholder={"Enter Password"}
         label={"Password"}
         onChange={(e) => setPassword(e.target.value)}
+        disabled={loading}
         required={true} />
 
       <InputComponent
@@ -57,10 +62,18 @@ const StepOne = ({ setSuccess, setUserId }) => {
         placeholder={"Confirm Password"}
         label={"Confirm Password"}
         onChange={(e) => setConfirmPassword(e.target.value)}
+        disabled={loading}
         required={true} />
 
       {error && <div className="error">{error}</div>}
-      <button className={'btn px-5 py-2 bg-color-sec'} type="submit" onClick={handleSignUp1}><span className='fs-7 text-uppercase fw-bold color-pri'>Next</span></button>
+      <button
+        className={'btn px-5 py-2 bg-color-sec'}
+        type="submit"
+        onClick={handleSignUp1}
+        disabled={loading}
+      >
+        <span className='fs-7 text-uppercase fw-bold color-pri'>Next</span>
+      </button>
     </>);
 }
 

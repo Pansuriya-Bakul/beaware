@@ -10,6 +10,7 @@ const StepOne = ({ userId }) => {
   const [logoUrl, setLogoUrl] = useState('');
   const [streamColor, setStreamColor] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSignUp2 = async (e) => {
@@ -21,23 +22,24 @@ const StepOne = ({ userId }) => {
       return;
     }
 
+    setLoading(true);
+
     try {
-      const docRef = await addDoc(collection(db, 'streams'), {
+      await addDoc(collection(db, 'streams'), {
         userId: userId,
         name: name,
         logoUrl: logoUrl,
         streamColor: streamColor
       });
 
-      console.log('Document written with ID: ', docRef.id);
+      navigate('/dashboard', { state: { user: userId } });
 
-
-      navigate('/dashboard');
     } catch (error) {
       console.error('Error adding document: ', error.message);
       setError('Failed to store data. Please try again.');
     }
   };
+
   return (
     <>
       <InputComponent
@@ -46,6 +48,7 @@ const StepOne = ({ userId }) => {
         placeholder={"Stream Name"}
         label={"Stream Name"}
         onChange={(e) => setName(e.target.value)}
+        disabled={loading}
         required={true} />
 
       <InputComponent
@@ -54,6 +57,7 @@ const StepOne = ({ userId }) => {
         placeholder={"Paste Logo URL"}
         label={"Logo URL"}
         onChange={(e) => setLogoUrl(e.target.value)}
+        disabled={loading}
         required={true} />
 
       <InputComponent
@@ -62,10 +66,19 @@ const StepOne = ({ userId }) => {
         placeholder={"Enter Color Hex"}
         label={"Stream Color"}
         onChange={(e) => setStreamColor(e.target.value)}
+        disabled={loading}
         required={true} />
 
       {error && <div className="error">{error}</div>}
-      <button className={'btn px-5 py-2 bg-color-sec'} type="submit" onClick={handleSignUp2}><span className='fs-7 text-uppercase fw-bold color-pri'>Sign Up</span></button>
+
+      <button
+        className={'btn px-5 py-2 bg-color-sec'}
+        type="submit"
+        onClick={handleSignUp2}
+        disabled={loading}
+      >
+        <span className='fs-7 text-uppercase fw-bold color-pri'>Sign Up</span>
+      </button>
     </>);
 }
 

@@ -1,4 +1,4 @@
-export default function InputComponent({ input_id, label, type, placeholder, onChange, required }) {
+export default function InputComponent({ input_id, label, type, placeholder, onChange, required, disabled }) {
 
     return (
         <div className="input-component my-3 row" >
@@ -15,6 +15,7 @@ export default function InputComponent({ input_id, label, type, placeholder, onC
                 name={input_id}
                 placeholder={placeholder ? placeholder : ""}
                 onChange={onChange}
+                disabled={disabled ? true : false}
                 required={required ? true : false}
             />
         </div>
