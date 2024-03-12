@@ -99,10 +99,18 @@ code {
   background-color: #e5e5e5 !important;
 }
 
-.bg-color-ter {
-  background-color: #a6e4f6 important;
-}
+/*.bg-color-ter {*/
+/*  background-color: #a6e4f6 important;*/
+/*}*/
 
 .error {
   color: red;
+}
+
+.signup{
+  text-align: center;
+}
+
+.qrcode-container{
+  border: 10px grey;
 }
