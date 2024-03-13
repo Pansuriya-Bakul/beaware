@@ -32,7 +32,7 @@ const StepOne = ({ userId }) => {
         streamColor: streamColor
       });
 
-      navigate('/dashboard', { state: { user: userId } });
+      navigate('/login', { state: { user: userId } });
 
     } catch (error) {
       console.error('Error adding document: ', error.message);

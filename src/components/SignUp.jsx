@@ -13,17 +13,20 @@ const SignUp = () => {
 
   return (
     <Row className='landing'>
-      <Col className='logo-container'>
-        <div className="logo-wrapper">
-          <img src={logo} alt="logo" />
-        </div>
-        <div className="vector-wrapper">
-          <img src={login_vec} alt="login-vector" />
-        </div>
-      </Col>
-      <Col className="form-container">
-        <div className="form-wrapper">
-          <h2>SIGN UP</h2>
+        <Col className='logo-container'>
+            <div className="logo-wrapper">
+                <img src={logo} alt="logo"/>
+            </div>
+            <div className="vector-wrapper">
+                <img src={login_vec} alt="login-vector"/>
+            </div>
+            <div className="signup">
+                <label>New to beaware? <a href="/signup">Sign Up</a></label>
+            </div>
+        </Col>
+        <Col className="form-container">
+            <div className="form-wrapper">
+                <h2>SIGN UP</h2>
           {(success === false || userId === '') ? <StepOne setSuccess={setSuccess} setUserId={setUserId} /> : <StepTwo userId={userId} />}
         </div>
       </Col>
