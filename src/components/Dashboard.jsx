@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import QRCode from 'qrcode.react';
-import logo from "../style/logo.png";
-import login_vec from "../style/login-vec.png";
 import InputComponent from "./Input";
 
 const Dashboard = () => {
@@ -51,31 +49,31 @@ const Dashboard = () => {
       <Col className="form-container">
         <div className="form-wrapper">
           <InputComponent
-              type={"text"}
-              input_id={"stream-name"}
-              placeholder={"Stream Name"}
-              label={"Stream Name"}
-              // onChange={(e) => setName(e.target.value)}
-              // disabled={loading}
-              required={true}/>
+            type={"text"}
+            input_id={"stream-name"}
+            placeholder={"Stream Name"}
+            label={"Stream Name"}
+            // onChange={(e) => setName(e.target.value)}
+            // disabled={loading}
+            required={true} />
 
           <InputComponent
-              type={"text"}
-              input_id={"stream-color"}
-              placeholder={"Enter Color Hex"}
-              label={"Stream Color"}
-              // onChange={(e) => setStreamColor(e.target.value)}
-              // disabled={loading}
-              required={true}/>
+            type={"text"}
+            input_id={"stream-color"}
+            placeholder={"Enter Color Hex"}
+            label={"Stream Color"}
+            // onChange={(e) => setStreamColor(e.target.value)}
+            // disabled={loading}
+            required={true} />
 
-          <h2 style={{textAlign:"left"}}>QR Code</h2>
+          <h2 style={{ textAlign: "left" }}>QR Code</h2>
           <div className='qrcode-container'>
-            <QRCode value={`streamName: ${streamName}, streamColor: ${streamColor}`}/>
+            <QRCode value={`streamName: ${streamName}, streamColor: ${streamColor}`} />
           </div>
         </div>
       </Col>
     </Row>
-);
+  );
 };
 
 export default Dashboard;
