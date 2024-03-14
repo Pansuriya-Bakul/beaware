@@ -37,12 +37,12 @@ code {
   padding: 0;
   display: flex;
   flex-direction: column;
+  height: 100vh;
 }
 
 .dashboard-navbar {
   margin: 1em auto;
   margin-bottom: 40px;
-
 }
 
 .vector-wrapper {
@@ -113,6 +113,8 @@ code {
 }
 
 
+
+
 .dashboard-header .name{
   display: inline;
   color: #A6E4F6;
@@ -165,10 +167,46 @@ code {
   background-color: #e5e5e5 !important;
 }
 
-.bg-color-ter {
-  background-color: #a6e4f6 important;
-}
+/*.bg-color-ter {*/
+/*  background-color: #a6e4f6 important;*/
+/*}*/
 
 .error {
   color: red;
+}
+
+.signup{
+  text-align: center;
+}
+
+.qrcode-container{
+  border: 10px grey;
+  margin-top: 50px;
+}
+
+#stream-color {
+  display: inline;
+  width: 50px !important;
+}
+
+.dashboard-color-picker {
+  display: inline;
+  color: #fff;
+  width: 100%;
+}
+
+.log-out {
+  width: 320px;
+  height: 77px;
+  border-radius: 12px;
+  border: 1.5px;
+  border-color: #1B4375;
+  color: #1B4375;
+}
+
+.log-out-container {
+  height: 100%;
+  display: flex;
+  align-items: end;
+  justify-content: center;
 }
