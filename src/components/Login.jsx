@@ -31,7 +31,7 @@ const Login = () => {
 
   return (
     <Row className='landing'>
-      <Col className='logo-container'>
+      <Col lg={6} className='logo-container'>
         <div className="logo-wrapper">
           <img src={logo} alt="logo" />
         </div>
@@ -62,8 +62,8 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required={true}/>
               <div>
-                <a href="/forgotpassword">
-                  <h6 style={{textAlign: 'right'}}>Forgot Password ?</h6>
+                <a href="/passwordreset">
+                  <label >Forgot Password ?</label>
                 </a>
               </div>
 

@@ -40,7 +40,6 @@ code {
   flex-direction: column;
   justify-content: space-around;
   max-width: 75%;
-  max-width: 75%;
 }
 
 .vector-wrapper img {
@@ -114,3 +113,105 @@ code {
 .qrcode-container{
   border: 10px grey;
 }
+
+
+/* For small devices (phones, 576px and up) */
+@media (min-width: 576px) {
+  .landing {
+    height: auto !important;
+  }
+
+  .logo-container {
+    padding: 2em;
+  }
+
+  .vector-wrapper {
+    max-width: 100%;
+  }
+
+  .form-container {
+    flex-direction: column;
+    padding: 2em;
+  }
+
+  .form-wrapper {
+    padding: 10%;
+  }
+
+  .form-input {
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* For medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .form-wrapper {
+    padding: 5%;
+  }
+}
+
+/* For large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .landing {
+    margin: 0 auto !important;
+    width: auto;
+  }
+
+  .vector-wrapper {
+    max-width: 68%;
+    margin:0 auto;
+  }
+
+  .form-container {
+    padding: 4em;
+
+  }
+
+  .form-wrapper {
+    padding: 8%;
+  }
+}
+
+
+.color-picker-popup {
+  display: none;
+  z-index: 1000;
+  position: absolute; /* Position the color picker popup */
+  top: calc(100% + 10px); /* Position it below the color picker button */
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.color-picker-popup.show {
+  display: block;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center content horizontally */
+}
+
+.profile-stream-wrapper {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.profile-container,
+.stream-container {
+  margin-bottom: 10px; /* Adjust as needed */
+}
+
+.logout {
+  position: absolute;
+  bottom: 10px; /* Adjust as needed */
+  left: 25%;
+  border-radius: 10px;
+  transform: translateX(-50%);}

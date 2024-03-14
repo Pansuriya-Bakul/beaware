@@ -1,79 +1,95 @@
-import React, { useState, useEffect } from 'react';
-import { Row, Col } from 'react-bootstrap';
-import QRCode from 'qrcode.react';
-import InputComponent from "./Input";
+  import React, { useState, useEffect } from 'react';
+  import { Row, Col } from 'react-bootstrap';
+  import QRCode from 'qrcode.react';
+  import { auth, db } from '../firebase/config';
+  import logo from "../style/logo.png";
 
-const Dashboard = () => {
-  const [streamName, setStreamName] = useState('');
-  const [streamColor, setStreamColor] = useState('');
+  const Dashboard = () => {
+    const [userData, setUserData] = useState(null);
 
-  useEffect(() => {
-    // Fetch stream name and hex color from the database or API
-    const fetchData = async () => {
-      try {
-        // Make API request to fetch user's stream details
-        const response = await fetch('/api/stream/details', {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          // Update state with stream name and hex color
-          setStreamName(data.streamName);
-          setStreamColor(data.streamColor);
-        } else {
-          console.error('Failed to fetch stream details:', response.statusText);
+    useEffect(() => {
+      const fetchUserData = async () => {
+        try {
+          const user = auth.currentUser;
+          if (user) {
+            const userDoc = await db.collection('streams').where('userId', '==', user.uid).get();
+            if (!userDoc.empty) {
+              const userData = userDoc.docs[0].data();
+              setUserData(userData);
+            } else {
+              console.error('User data not found');
+            }
+          } else {
+            console.error('No user is currently signed in.');
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
         }
-      } catch (error) {
-        console.error('Error fetching stream details:', error);
+      };
+
+      fetchUserData();
+    }, []);
+
+      const handleprofile =() =>{
+
       }
-    };
-    fetchData();
-  }, []); // Fetch data only once when the component mounts
-
-  return (
-    <Row className='landing'>
+    return (
+      <Row className='landing'>
       <Col className='logo-container'>
-        <div>
-          <label>Update Profile</label>
-        </div>
-        <div >
-          <label>Stream Settings</label>
-        </div>
-        <div className="logout">
-          <button>LOG OUT</button>
-        </div>
-      </Col>
-      <Col className="form-container">
-        <div className="form-wrapper">
-          <InputComponent
-            type={"text"}
-            input_id={"stream-name"}
-            placeholder={"Stream Name"}
-            label={"Stream Name"}
-            // onChange={(e) => setName(e.target.value)}
-            // disabled={loading}
-            required={true} />
+    <div className="logo-wrapper">
+      <img src={logo} alt="logo" />
+    </div>
+    <div className="profile-stream-wrapper">
+      <div className={"profile-container"}>
+        <label onClick={handleprofile}>Update Profile</label>
+      </div>
+      <div className={"stream-container"}>
+        <label>Stream Settings</label>
+      </div>
+    </div>
+    <div className="logout">
+      <button>LOG OUT</button>
+    </div>
+  </Col>
+        <Col className="form-container">
+    <div className="form-wrapper">
+      <div className="input-component my-3 row">
+        <label className="form-label color-sec">Stream Name:</label>
+        <input
+          className="form-input form-text"
+          type={"text"}
+          id={"stream-name"}
+          placeholder={"Stream Name"}
+          // value={userData.name}
+          disabled={true}
+          readOnly={true}
+          required={true}
+        />
+      </div>
+      <div className="input-component my-3 row">
+        <label className="form-label color-sec" >Stream Color:</label>
+        <input
+          className="form-input form-text"
+          type={"text"}
+          id={"stream-color"}
+          placeholder={"Stream Color"}
+          // value={userData.streamColor}
+          disabled={true}
+          readOnly={true}
+          required={true}
+        />
+      </div>
+    </div>
 
-          <InputComponent
-            type={"text"}
-            input_id={"stream-color"}
-            placeholder={"Enter Color Hex"}
-            label={"Stream Color"}
-            // onChange={(e) => setStreamColor(e.target.value)}
-            // disabled={loading}
-            required={true} />
+              <h2 style={{textAlign: "left"}}>QR Code</h2>
+              <div className='qrcode-container'>
+                {userData && (
+                    <QRCode value={`streamName: ${userData.name}, streamColor: ${userData.streamColor}`}/>
+                )}
+              </div>
+        </Col>
+      </Row>
+    );
+  };
 
-          <h2 style={{ textAlign: "left" }}>QR Code</h2>
-          <div className='qrcode-container'>
-            <QRCode value={`streamName: ${streamName}, streamColor: ${streamColor}`} />
-          </div>
-        </div>
-      </Col>
-    </Row>
-  );
-};
-
-export default Dashboard;
+  export default Dashboard;

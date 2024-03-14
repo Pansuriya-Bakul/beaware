@@ -4,6 +4,7 @@ import { collection, addDoc } from 'firebase/firestore';
 
 import { db } from '../../firebase/config';
 import InputComponent from '../Input';
+import ColorPickerInput from "../ColorInputComponent";
 
 const StepOne = ({ userId }) => {
   const [name, setName] = useState('');
@@ -60,14 +61,16 @@ const StepOne = ({ userId }) => {
         disabled={loading}
         required={true} />
 
-      <InputComponent
-        type={"text"}
-        input_id={"stream-color"}
-        placeholder={"Enter Color Hex"}
-        label={"Stream Color"}
-        onChange={(e) => setStreamColor(e.target.value)}
-        disabled={loading}
-        required={true} />
+      <ColorPickerInput
+            input_id={"stream-color"}
+            label={"Stream Color"}
+            placeholder={"Enter Hex Color"}
+            selectedColor={streamColor}
+            onChange={(e)=>setStreamColor(e.target.value) }
+            disabled={loading}
+            required={true}
+          />
+
 
       {error && <div className="error">{error}</div>}
 
