@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { auth } from '../firebase/config';
+import { auth, db } from '../firebase/config';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import InputComponent from './Input';
 import logo from '../style/logo.png';
-import { Row, Col, Nav, Button} from 'react-bootstrap';
+import { Row, Col, Nav, Button } from 'react-bootstrap';
 import QRCode from 'qrcode.react';
 
 const Dashboard = () => {
@@ -18,48 +19,46 @@ const Dashboard = () => {
 
   const componentDidMount = () => {
     setIsMobile(window.innerWidth < 1200 ? true : false);
-    console.log(window.innerWidth);
     window.addEventListener('resize', () => {
       setIsMobile(window.innerWidth < 1200 ? true : false);
     }, false);
   };
 
   useEffect(() => {
-    // Fetch stream name and hex color from the database or API
-    const fetchData = async () => {
+    const fetchStream = async () => {
       try {
-        // Make API request to fetch user's stream details
-        const response = await fetch('/api/stream/details', {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
+        const streamsCollectionRef = collection(db, 'streams');
+        const streamsQuery = query(streamsCollectionRef, where('userId', '==', auth.currentUser.uid));
+
+        const userStreams = [];
+        const querySnapshot = await getDocs(streamsQuery);
+
+        querySnapshot.forEach((doc) => {
+          userStreams.push({ id: doc.id, ...doc.data() });
         });
-        if (response.ok) {
-          const data = await response.json();
-          // Update state with stream name and hex color
-          setStreamName(data.streamName);
+
+        const data = userStreams[0];
+        if (data) {
+          setStreamName(data.name);
           setStreamColor(data.streamColor);
-        } else {
-          console.error('Failed to fetch stream details:', response.statusText);
         }
       } catch (error) {
         console.error('Error fetching stream details:', error);
       }
     };
+
     getUserDetails();
-    fetchData();
+    fetchStream();
     componentDidMount();
   }, []);
-  const getUserDetails = async () => {
+
+  const getUserDetails = () => {
     if (auth.currentUser) {
-      console.log(auth.currentUser)
       setEmail(auth.currentUser.email);
-      setName(auth.currentUser.displayName || 'Matt');
-      setPhone(auth.currentUser.phoneNumber || "1234567890");
-    
+      setName(auth.currentUser.displayName || auth.currentUser.email.split('@')[0]);
+      setPhone(auth.currentUser.phoneNumber || '1234567890');
     } else {
-      // navigate('/login');
+      navigate('/login');
     }
   }
 
@@ -67,11 +66,11 @@ const Dashboard = () => {
     auth.signOut();
     navigate('/login');
   };
-  console.log(isMobile);
+
   return !isMobile ? (
     // Desktop View
     <Row className='landing'>
-      <Col  className='dashboard-container'>
+      <Col className='dashboard-container'>
         <div className="dashboard-navbar">
           <img src={logo} alt="logo" />
         </div>
@@ -80,22 +79,22 @@ const Dashboard = () => {
           <Nav.Link eventKey="stream_settings" onClick={() => setShowStream(true)}>Stream Settings</Nav.Link>
         </Nav>
         <div className='log-out-container'>
-        <Button size='lg' variant='outline-primary' className='log-out' onClick={logout}>LOG OUT</Button>
+          <Button size='lg' variant='outline-primary' className='log-out' onClick={logout}>LOG OUT</Button>
         </div>
       </Col>
       {showStream ? <Col xs={9} className="dashboard-container-right">
         <div className="dashboard-form-wrapper">
-        <div className='dashboard-header'>STREAM SETTINGS</div>
+          <div className='dashboard-header'>STREAM SETTINGS</div>
           <InputComponent
             type={"text"}
             className={'dashboard-stream-name'}
             input_id={"stream-name"}
             placeholder={"Stream Name"}
+            value={streamName}
             label={"Stream Name"}
-            // onChange={(e) => setName(e.target.value)}
-            // disabled={loading}
+            disabled={true}
             required={true} />
-            <div className='dashboard-color-picker'>
+          <div className='dashboard-color-picker'>
 
             Stream Color: {streamColor}
             <input
@@ -104,16 +103,16 @@ const Dashboard = () => {
               placeholder={"Enter Color Hex"}
               onChange={(e) => setStreamColor(e.target.value)}
               required={true} />
-            </div>
+          </div>
           <div className='qrcode-container'>
             <QRCode value={streamName} />
           </div>
         </div>
       </Col>
-      :
-      <Col xs={9} className="dashboard-container-right">
-      <div className='dashboard-header'>HELLO, <p className='name'>{name.toUpperCase()}</p></div>
-        <div className="dashboard-form-wrapper">
+        :
+        <Col xs={9} className="dashboard-container-right">
+          <div className='dashboard-header'>HELLO, <p className='name'>{name.toUpperCase()}</p></div>
+          <div className="dashboard-form-wrapper">
             <form >
               <InputComponent
                 type={"email"}
@@ -121,10 +120,9 @@ const Dashboard = () => {
                 placeholder={"Enter Your Email"}
                 value={email}
                 label={"Email"}
-                v
-                onChange={(e) => setEmail(e.target.value)}
+                disabled={true}
                 required={false} />
-                <InputComponent
+              <InputComponent
                 type={"name"}
                 input_id={"name"}
                 placeholder={"Enter Your Name"}
@@ -132,7 +130,7 @@ const Dashboard = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required={false} />
-                <InputComponent
+              <InputComponent
                 type={"phone"}
                 input_id={"phone"}
                 placeholder={"Enter Your Phone number"}
@@ -149,17 +147,17 @@ const Dashboard = () => {
                 value={"*************"}
                 required={true} />
               <div className='dashboard-buttons'>
-              <Button variant="outline-primary" size="lg" type="reset" className={'dashboard-button'}>Cancel</Button>
-              <Button variant="primary" type="submit" size="lg" className={'dashboard-submit'}>UPDATE</Button>
+                <Button variant="outline-primary" size="lg" type="reset" className={'dashboard-button'}>Cancel</Button>
+                <Button variant="primary" type="submit" size="lg" className={'dashboard-submit'}>UPDATE</Button>
               </div>
             </form>
-        </div>
-      </Col>}
+          </div>
+        </Col>}
     </Row>
   ) : (
     // Mobile View
     <Row className='landing'>
-      <Col  className='dashboard-container'>
+      <Col className='dashboard-container'>
         <div className="dashboard-navbar">
           <img src={logo} alt="logo" />
         </div>
@@ -173,7 +171,7 @@ const Dashboard = () => {
       </Col>
       {showStream ? <Col className="dashboard-container-right">
         <div className="dashboard-form-wrapper">
-        <div className='dashboard-header'>STREAM SETTINGS</div>
+          <div className='dashboard-header'>STREAM SETTINGS</div>
           <InputComponent
             type={"text"}
             className={'dashboard-stream-name'}
@@ -183,7 +181,7 @@ const Dashboard = () => {
             // onChange={(e) => setName(e.target.value)}
             // disabled={loading}
             required={true} />
-            <div className='dashboard-color-picker'>
+          <div className='dashboard-color-picker'>
 
             Stream Color: {streamColor}
             <input
@@ -192,16 +190,16 @@ const Dashboard = () => {
               placeholder={"Enter Color Hex"}
               onChange={(e) => setStreamColor(e.target.value)}
               required={true} />
-            </div>
+          </div>
           <div className='qrcode-container'>
             <QRCode value={streamName} />
           </div>
         </div>
       </Col>
-      :
-      <Col className="dashboard-container-right">
-      <div className='dashboard-header'>HELLO, <p className='name'>{name.toUpperCase()}</p></div>
-        <div className="dashboard-form-wrapper">
+        :
+        <Col className="dashboard-container-right">
+          <div className='dashboard-header'>HELLO, <p className='name'>{name.toUpperCase()}</p></div>
+          <div className="dashboard-form-wrapper">
             <form >
               <InputComponent
                 type={"email"}
@@ -212,7 +210,7 @@ const Dashboard = () => {
                 v
                 onChange={(e) => setEmail(e.target.value)}
                 required={false} />
-                <InputComponent
+              <InputComponent
                 type={"name"}
                 input_id={"name"}
                 placeholder={"Enter Your Name"}
@@ -220,7 +218,7 @@ const Dashboard = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required={false} />
-                <InputComponent
+              <InputComponent
                 type={"phone"}
                 input_id={"phone"}
                 placeholder={"Enter Your Phone number"}
@@ -241,8 +239,8 @@ const Dashboard = () => {
                 <Button variant="primary" type="submit" size="sm" className={'dashboard-submit'}>UPDATE</Button>
               </div>
             </form>
-        </div>
-      </Col>}
+          </div>
+        </Col>}
     </Row>
   );
 
