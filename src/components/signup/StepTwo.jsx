@@ -4,6 +4,7 @@ import { collection, addDoc } from 'firebase/firestore';
 
 import { db } from '../../firebase/config';
 import InputComponent from '../Input';
+import ColorPickerComponent from '../ColorPicker';
 
 const StepOne = ({ userId }) => {
   const [name, setName] = useState('');
@@ -70,17 +71,7 @@ const StepOne = ({ userId }) => {
   }
 
   const handleColorHex = (value) => {
-    console.log(value);
-    // Validation for hex color
-    const regex = /^#[0-9A-F]{6}$/;
-    if (!regex.test(value)) {
-      setError('Invalid hex color format');
-      document.getElementById('stream-color').classList.add('error-border');
-      return;
-    }
-
-    setError('');
-    document.getElementById('stream-color').classList.remove('error-border');
+    document.getElementById('stream-color-text').value = value;
     setStreamColor(value.split('#')[1]);
   }
 
@@ -104,7 +95,7 @@ const StepOne = ({ userId }) => {
         disabled={loading}
         required={true} />
 
-      <InputComponent
+      <ColorPickerComponent
         type={"color"}
         input_id={"stream-color"}
         placeholder={"Enter Color Hex"}

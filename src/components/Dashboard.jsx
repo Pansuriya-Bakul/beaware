@@ -6,6 +6,7 @@ import InputComponent from './Input';
 import logo from '../style/logo.png';
 import { Row, Col, Nav, Button } from 'react-bootstrap';
 import QRCode from 'qrcode.react';
+import ColorPickerComponent from './ColorPicker';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -95,13 +96,13 @@ const Dashboard = () => {
             disabled={true}
             required={true} />
           <div className='dashboard-color-picker'>
-
-            Stream Color: {streamColor}
-            <input
+            <ColorPickerComponent
               type={"color"}
-              id={"stream-color"}
-              placeholder={"Enter Color Hex"}
-              onChange={(e) => setStreamColor(e.target.value)}
+              input_id={"stream-color"}
+              placeholder={"Stream Color"}
+              value={streamColor}
+              label={"Stream Color"}
+              disabled={true}
               required={true} />
           </div>
           <div className='qrcode-container'>

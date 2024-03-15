@@ -18,7 +18,6 @@ const Login = () => {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log('Logged in successfully!', userCredential.user.uid);
       if (userCredential.user.uid) {
         navigate('/dashboard');
       }
