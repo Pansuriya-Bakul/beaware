@@ -29,6 +29,15 @@ const Login = () => {
     }
   };
 
+  const handleEmail = (value) => {
+    // check email format
+    const regex = /^\S+@\S+\.\S+/;
+    if (!regex.test(value)) {
+      setError('Invalid email format.');
+      return;
+    }
+    setEmail(value);
+  }
   return (
     <Row className='landing'>
       <Col className='logo-container'>
@@ -47,32 +56,34 @@ const Login = () => {
           <h2>SIGN IN</h2>
           <form onSubmit={handleSubmit}>
             <InputComponent
-                type={"email"}
-                input_id={"email"}
-                placeholder={"Enter Your Email"}
-                label={"Email"}
-                onChange={(e) => setEmail(e.target.value)}
-                required={false}/>
+              type={"email"}
+              input_id={"email"}
+              placeholder={"Enter Your Email"}
+              label={"Email"}
+              onChange={(e) => handleEmail(e.target.value)}
+              required={false} />
+            <div class="invalid-feedback">
+              Please provide a valid email.
+            </div>
 
             <InputComponent
-                type={"password"}
-                input_id={"password"}
-                placeholder={"Enter Your Password"}
-                label={"Password"}
-                onChange={(e) => setPassword(e.target.value)}
-                required={true}/>
-              <div>
-                <a href="/forgotpassword">
-                  <h6 style={{textAlign: 'right'}}>Forgot Password ?</h6>
-                </a>
-              </div>
+              type={"password"}
+              input_id={"password"}
+              placeholder={"Enter Your Password"}
+              label={"Password"}
+              onChange={(e) => setPassword(e.target.value)}
+              required={true} />
+            <div>
+              <a href="/forgotpassword">
+                <h6 style={{ textAlign: 'right' }}>Forgot Password ?</h6>
+              </a>
+            </div>
 
             {error && <div className="error">{error}</div>}
             <button className={'btn px-5 py-2 bg-color-sec'} type="submit"><span
-                className='fs-7 text-uppercase fw-bold color-pri'>Login</span></button>
+              className='fs-7 text-uppercase fw-bold color-pri'>Login</span></button>
           </form>
         </div>
-
       </Col>
     </Row>
   );

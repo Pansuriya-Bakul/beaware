@@ -50,7 +50,7 @@ const Dashboard = () => {
     getUserDetails();
     fetchStream();
     componentDidMount();
-  }, []);
+  });
 
   const getUserDetails = () => {
     if (auth.currentUser) {

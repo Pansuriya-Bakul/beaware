@@ -38,7 +38,51 @@ const StepOne = ({ userId }) => {
       console.error('Error adding document: ', error.message);
       setError('Failed to store data. Please try again.');
     }
+
+    setLoading(false);
   };
+
+  const handleLogoUrl = (value) => {
+
+    // Validation for URL
+    const regex = /^(http|https):\/\/[^ "]+$/;
+    if (!regex.test(value)) {
+      setError('Invalid URL format');
+      document.getElementById('logo-url').classList.add('error-border');
+      return;
+    }
+    document.getElementById('logo-url').classList.remove('error-border');
+    setError('');
+    setLogoUrl(value);
+  }
+
+  const handleName = (value) => {
+    // Validation for name
+    if (! /^[a-zA-Z-]+$/.test(value)) {
+      setError('Only alphabets and hyphens are allowed');
+      document.getElementById('stream-name').classList.add('error-border');
+      return;
+    }
+
+    setError('');
+    document.getElementById('stream-name').classList.remove('error-border');
+    setName(value);
+  }
+
+  const handleColorHex = (value) => {
+    console.log(value);
+    // Validation for hex color
+    const regex = /^#[0-9A-F]{6}$/;
+    if (!regex.test(value)) {
+      setError('Invalid hex color format');
+      document.getElementById('stream-color').classList.add('error-border');
+      return;
+    }
+
+    setError('');
+    document.getElementById('stream-color').classList.remove('error-border');
+    setStreamColor(value.split('#')[1]);
+  }
 
   return (
     <>
@@ -47,7 +91,7 @@ const StepOne = ({ userId }) => {
         input_id={"stream-name"}
         placeholder={"Stream Name"}
         label={"Stream Name"}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e) => handleName(e.target.value)}
         disabled={loading}
         required={true} />
 
@@ -56,16 +100,16 @@ const StepOne = ({ userId }) => {
         input_id={"logo-url"}
         placeholder={"Paste Logo URL"}
         label={"Logo URL"}
-        onChange={(e) => setLogoUrl(e.target.value)}
+        onChange={(e) => handleLogoUrl(e.target.value)}
         disabled={loading}
         required={true} />
 
       <InputComponent
-        type={"text"}
+        type={"color"}
         input_id={"stream-color"}
         placeholder={"Enter Color Hex"}
         label={"Stream Color"}
-        onChange={(e) => setStreamColor(e.target.value)}
+        onChange={(e) => handleColorHex(e.target.value)}
         disabled={loading}
         required={true} />
 
