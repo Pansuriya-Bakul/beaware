@@ -205,6 +205,18 @@ input:focus {
   text-align: left;
 }
 
+.color-picker {
+  display: flex;
+  flex-direction: row;
+}
+
+.form-color {
+  max-width: 5rem;
+  max-height: 42px;
+  padding: 0.2rem;
+  margin: 0.25em 1em;
+}
+
 @media (max-width: 600px) {
   .log-out-container {
     height: fit-content;

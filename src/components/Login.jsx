@@ -61,9 +61,6 @@ const Login = () => {
               label={"Email"}
               onChange={(e) => handleEmail(e.target.value)}
               required={false} />
-            <div class="invalid-feedback">
-              Please provide a valid email.
-            </div>
 
             <InputComponent
               type={"password"}

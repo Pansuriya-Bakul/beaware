@@ -8,17 +8,19 @@ export default function InputComponent({ input_id, label, type, placeholder, onC
             >
                 {label}
             </label>
-            <input
-                className="form-input form-text"
-                type={type}
-                id={input_id}
-                name={input_id}
-                placeholder={placeholder ? placeholder : ""}
-                onChange={onChange}
-                value={value}
-                disabled={disabled ? true : false}
-                required={required ? true : false}
-            />
+            <div>
+                <input
+                    className="form-input form-text"
+                    type={type}
+                    id={input_id}
+                    name={input_id}
+                    placeholder={placeholder ? placeholder : ""}
+                    onChange={onChange}
+                    value={value}
+                    disabled={disabled ? true : false}
+                    required={required ? true : false}
+                />
+            </div>
         </div>
     );
 }

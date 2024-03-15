@@ -95,16 +95,16 @@ const Dashboard = () => {
             label={"Stream Name"}
             disabled={true}
             required={true} />
-          <div className='dashboard-color-picker'>
-            <ColorPickerComponent
-              type={"color"}
-              input_id={"stream-color"}
-              placeholder={"Stream Color"}
-              value={streamColor}
-              label={"Stream Color"}
-              disabled={true}
-              required={true} />
-          </div>
+          <ColorPickerComponent
+            className={'dashboard-color-picker'}
+            type={"color"}
+            input_id={"stream-color"}
+            placeholder={"Stream Color"}
+            value={streamColor}
+            label={"Stream Color"}
+            disabled={true}
+            required={true} />
+
           <div className='qrcode-container'>
             <QRCode value={streamName} />
           </div>
@@ -147,6 +147,7 @@ const Dashboard = () => {
                 disabled={true}
                 value={"*************"}
                 required={true} />
+
               <div className='dashboard-buttons'>
                 <Button variant="outline-primary" size="lg" type="reset" className={'dashboard-button'}>Cancel</Button>
                 <Button variant="primary" type="submit" size="lg" className={'dashboard-submit'}>UPDATE</Button>
@@ -179,19 +180,18 @@ const Dashboard = () => {
             input_id={"stream-name"}
             placeholder={"Stream Name"}
             label={"Stream Name"}
-            // onChange={(e) => setName(e.target.value)}
-            // disabled={loading}
+            value={streamName}
             required={true} />
-          <div className='dashboard-color-picker'>
+          <ColorPickerComponent
+            className={'dashboard-color-picker'}
+            type={"color"}
+            input_id={"stream-color"}
+            placeholder={"Stream Color"}
+            value={streamColor}
+            label={"Stream Color"}
+            disabled={true}
+            required={true} />
 
-            Stream Color: {streamColor}
-            <input
-              type={"color"}
-              id={"stream-color"}
-              placeholder={"Enter Color Hex"}
-              onChange={(e) => setStreamColor(e.target.value)}
-              required={true} />
-          </div>
           <div className='qrcode-container'>
             <QRCode value={streamName} />
           </div>

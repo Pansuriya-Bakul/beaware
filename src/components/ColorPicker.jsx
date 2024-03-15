@@ -9,16 +9,18 @@ export default function ColorPickerComponent({ input_id, label, placeholder, onC
                 {label}
             </label>
 
-            <div className="form-input">
+            <div className="color-picker">
                 <input
-                    className="form-text"
+                    className="form-input form-text"
                     type="text"
                     disabled={true}
+                    value={value}
                     id={input_id + "-text"}
                 />
                 <input
                     type="color"
-                    id={input_id + "-color"}
+                    className="form-input form-color"
+                    id={input_id + "-box"}
                     name={input_id}
                     placeholder={placeholder ? placeholder : ""}
                     onChange={onChange}
