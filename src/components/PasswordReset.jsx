@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { sendPasswordResetEmail } from "firebase/auth";
@@ -14,6 +14,18 @@ const PasswordReset = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState(false);
+
+  const componentDidMount = () => {
+    setIsMobile(window.innerWidth < 1200 ? true : false);
+    window.addEventListener('resize', () => {
+      setIsMobile(window.innerWidth < 1200 ? true : false);
+    }, false);
+  };
+
+  useEffect(() => {
+    componentDidMount();
+  }, []);
 
   const handleForgotPassword = async () => {
 
@@ -35,9 +47,11 @@ const PasswordReset = () => {
         <div className="logo-wrapper">
           <img src={logo} alt="logo" />
         </div>
-        <div className="vector-wrapper">
-          <img src={login_vec} alt="login-vector" />
-        </div>
+        {!isMobile && 
+          <div className="vector-wrapper">
+            <img src={login_vec} alt="login-vector" />
+          </div>
+        }
         <div className="signup">
           <label>New to beaware? <a href="/signup">Sign Up</a></label>
         </div>

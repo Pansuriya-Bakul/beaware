@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,18 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState(false);
+
+  const componentDidMount = () => {
+    setIsMobile(window.innerWidth < 1200 ? true : false);
+    window.addEventListener('resize', () => {
+      setIsMobile(window.innerWidth < 1200 ? true : false);
+    }, false);
+  };
+
+  useEffect(() => {
+    componentDidMount();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,9 +55,11 @@ const Login = () => {
         <div className="logo-wrapper">
           <img src={logo} alt="logo" />
         </div>
-        <div className="vector-wrapper">
-          <img src={login_vec} alt="login-vector" />
-        </div>
+        {!isMobile && 
+          <div className="vector-wrapper">
+            <img src={login_vec} alt="login-vector" />
+          </div>
+        }
         <div className="signup">
           <label>New to beaware? <a href="/signup">Sign Up</a></label>
         </div>

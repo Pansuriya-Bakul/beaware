@@ -65,7 +65,7 @@ const Dashboard = () => {
     getUserDetails();
     fetchStream();
     componentDidMount();
-  });
+  }, []);
 
   const getUserDetails = () => {
     if (auth.currentUser) {
@@ -142,7 +142,7 @@ const Dashboard = () => {
                 input_id={"name"}
                 placeholder={"Enter Your Name"}
                 label={"name"}
-                value={name}
+                defaultValue={name}
                 onChange={(e) => setName(e.target.value)}
                 required={false} />
               <InputComponent
