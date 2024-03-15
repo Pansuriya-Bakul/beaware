@@ -6,6 +6,7 @@ import InputComponent from './Input';
 import logo from '../style/logo.png';
 import { Row, Col, Nav, Button } from 'react-bootstrap';
 import QRCode from 'qrcode.react';
+import { updateProfile } from 'firebase/auth';
 import ColorPickerComponent from './ColorPicker';
 
 const Dashboard = () => {
@@ -24,6 +25,19 @@ const Dashboard = () => {
       setIsMobile(window.innerWidth < 1200 ? true : false);
     }, false);
   };
+  
+  const updateDetails = () => {
+    const userDetails = {
+      displayName: name,
+      email: email,
+      phoneNumber: phone,
+    }
+    updateProfile(auth.currentUser, userDetails);
+  }
+
+  const resetDetials = () => {
+    getUserDetails();
+  }
 
   useEffect(() => {
     const fetchStream = async () => {
@@ -149,8 +163,8 @@ const Dashboard = () => {
                 required={true} />
 
               <div className='dashboard-buttons'>
-                <Button variant="outline-primary" size="lg" type="reset" className={'dashboard-button'}>Cancel</Button>
-                <Button variant="primary" type="submit" size="lg" className={'dashboard-submit'}>UPDATE</Button>
+                <Button variant="outline-primary" size="lg" type="reset" onClick={resetDetials} className={'dashboard-button'}>Cancel</Button>
+                <Button variant="primary" type="submit" size="lg" onClick={updateDetails} className={'dashboard-submit'}>UPDATE</Button>
               </div>
             </form>
           </div>
@@ -236,8 +250,8 @@ const Dashboard = () => {
                 value={"*************"}
                 required={true} />
               <div className='dashboard-buttons'>
-                <Button variant="outline-primary" size="sm" type="reset" className={'dashboard-button'}>Cancel</Button>
-                <Button variant="primary" type="submit" size="sm" className={'dashboard-submit'}>UPDATE</Button>
+                <Button variant="outline-primary" size="sm" type="reset" onClick={resetDetials} className={'dashboard-button'}>Cancel</Button>
+                <Button variant="primary" type="submit" size="sm" onClick={updateDetails} className={'dashboard-submit'}>UPDATE</Button>
               </div>
             </form>
           </div>
