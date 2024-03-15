@@ -22,7 +22,6 @@ const StepOne = ({ setSuccess, setUserId }) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log('User created successfully!', user.uid);
         setUserId(user.uid);
         setSuccess(true);
       }).catch((e) => {
@@ -35,6 +34,27 @@ const StepOne = ({ setSuccess, setUserId }) => {
       });
   };
 
+  const handleConfirmPassword = (value) => {
+    setConfirmPassword(value);
+    if (password !== value) {
+      setError('Passwords do not match');
+      document.getElementById('confirm-password').classList.add('error-border');
+    } else {
+      setError('');
+      document.getElementById('confirm-password').classList.remove('error-border');
+    }
+  }
+
+  const handleEmail = (target) => {
+    const regex = /\S+@\S+\.\S+/;
+    if (!regex.test(target.value)) {
+      setError('Invalid email format.');
+      document.getElementById('email').classList.add('error-border');
+      return;
+    }
+    document.getElementById('email').classList.remove('error-border');
+    setEmail(target.value);
+  }
 
   return (
     <>
@@ -43,7 +63,7 @@ const StepOne = ({ setSuccess, setUserId }) => {
         input_id={"email"}
         placeholder={"Enter Your Email"}
         label={"Email"}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => handleEmail(e.target)}
         disabled={loading}
         required={true} />
 
@@ -61,7 +81,7 @@ const StepOne = ({ setSuccess, setUserId }) => {
         input_id={"confirm-password"}
         placeholder={"Confirm Password"}
         label={"Confirm Password"}
-        onChange={(e) => setConfirmPassword(e.target.value)}
+        onChange={(e) => handleConfirmPassword(e.target.value)}
         disabled={loading}
         required={true} />
 
@@ -70,10 +90,10 @@ const StepOne = ({ setSuccess, setUserId }) => {
         className={'btn px-5 py-2 bg-color-sec'}
         type="submit"
         onClick={handleSignUp1}
-        disabled={loading}
+        disabled={error ? true : false}
       >
         <span className='fs-7 text-uppercase fw-bold color-pri'>Next</span>
-      </button>
+      </button >
     </>);
 }
 

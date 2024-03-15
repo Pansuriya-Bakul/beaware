@@ -20,7 +20,6 @@ const PasswordReset = () => {
     await sendPasswordResetEmail(auth, email)
       .then((res) => {
         setSuccess(true);
-        console.log(res);
         setInterval(() => {
           navigate('/login');
         }, 3000);
