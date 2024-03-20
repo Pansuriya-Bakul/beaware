@@ -104,7 +104,7 @@ const Login = () => {
                 <Col className='col-2'></Col>
                 <Col className='col-8 d-flex flex-row-reverse'>
                   <a
-                    href="/forgotpassword">
+                    href="/passwordreset">
                     Forgot Password ?
                   </a>
                 </Col>

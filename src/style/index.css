@@ -23,12 +23,13 @@ form .row {
 }
 
 .link {
-  display: flex;
-  justify-content: right;
-}
-
-.link a {
-  margin-right: 30%;
+  width: 11em !important;
+  color: white;
+  border: 1px solid white;
+  border-radius: 0.5em;
+  text-align: center;
+  align-items: center;
+  text-decoration: none;
 }
 
 .row {
@@ -106,6 +107,11 @@ form .row {
   font-weight: bold;
 }
 
+.success {
+  color: #5fc95f;
+  font-weight: bold;
+}
+
 input,
 input:focus {
   outline: #a6e4f6 solid 2px;
@@ -113,28 +119,6 @@ input:focus {
 
 .error-border {
   outline: crimson solid 2px;
-}
-
-.qrcode-container {
-  display: flex;
-  flex-direction: column;
-  border: 10px grey;
-  margin-top: 50px;
-  padding: 1em;
-  border-radius: 8px;
-}
-
-.qrcode-container canvas,
-.qrcode-container .qr-link {
-  flex: 1;
-}
-
-.qr-link {
-  display: flex;
-  flex-direction: column;
-  align-content: space-between;
-  justify-content: center;
-  align-items: center;
 }
 
 .qr-link .link {
@@ -319,12 +303,11 @@ input:focus {
   .dashboard-form-wrapper {
     text-align: left;
   }
-
-  .qrcode-container {
-    padding-bottom: 60px;
-  }
 }
 
+canvas {
+  padding: 0 !important;
+}
 .dashboard-container {
   padding: 0;
   display: flex;
