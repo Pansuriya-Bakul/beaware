@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { collection, addDoc } from 'firebase/firestore';
+import { Row, Col } from 'react-bootstrap';
 
 import { db } from '../../firebase/config';
 import InputComponent from '../Input';
@@ -82,6 +83,7 @@ const StepOne = ({ userId }) => {
         input_id={"stream-name"}
         placeholder={"Stream Name"}
         label={"Stream Name"}
+        centered={true}
         onChange={(e) => handleName(e.target.value)}
         disabled={loading}
         required={true} />
@@ -91,6 +93,7 @@ const StepOne = ({ userId }) => {
         input_id={"logo-url"}
         placeholder={"Paste Logo URL"}
         label={"Logo URL"}
+        centered={true}
         onChange={(e) => handleLogoUrl(e.target.value)}
         disabled={loading}
         required={true} />
@@ -100,6 +103,7 @@ const StepOne = ({ userId }) => {
         input_id={"stream-color"}
         placeholder={"Enter Color Hex"}
         label={"Stream Color"}
+        centered={true}
         onChange={(e) => handleColorHex(e.target.value)}
         disabled={loading}
         required={true} />

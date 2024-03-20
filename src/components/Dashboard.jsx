@@ -53,7 +53,7 @@ const Dashboard = () => {
           const data = doc.data();
           console.log('Stream data:', data);
           setStreamName(data.name);
-          setStreamColor(data.streamColor);
+          setStreamColor('#' + data.streamColor);
           setStreamURL("https://conferencecaptioning.com/" + data.name);
         });
       } catch (error) {

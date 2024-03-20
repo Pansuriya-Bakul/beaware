@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { useNavigate } from 'react-router-dom';
+import { Row, Col } from 'react-bootstrap';
 import InputComponent from './Input';
 import logo from '../style/logo.png'
-import login_vec from '../style/login-vec.png'
-import { Row, Col } from 'react-bootstrap';
+import login_vec from '../style/login-vec.png';
 
 
 const Login = () => {
@@ -16,9 +16,9 @@ const Login = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   const componentDidMount = () => {
-    setIsMobile(window.innerWidth < 1200 ? true : false);
+    setIsMobile(window.innerWidth < 700 ? true : false);
     window.addEventListener('resize', () => {
-      setIsMobile(window.innerWidth < 1200 ? true : false);
+      setIsMobile(window.innerWidth < 700 ? true : false);
     }, false);
   };
 
@@ -51,51 +51,91 @@ const Login = () => {
   }
   return (
     <Row className='landing'>
-      <Col className='logo-container'>
-        <div className="logo-wrapper">
-          <img src={logo} alt="logo" />
-        </div>
-        {!isMobile && 
-          <div className="vector-wrapper">
-            <img src={login_vec} alt="login-vector" />
+      <Col className='logo-container col-lg-5 p-5'>
+        <Row className='justify-content-center text-center'>
+          <div>
+            <img src={logo} alt="logo" />
           </div>
-        }
-        <div className="signup">
-          <label>New to beaware? <a href="/signup">Sign Up</a></label>
-        </div>
-      </Col>
-      <Col className="form-container">
-        <div className="form-wrapper">
-          <h2>SIGN IN</h2>
-          <form onSubmit={handleSubmit}>
-            <InputComponent
-              type={"email"}
-              input_id={"email"}
-              placeholder={"Enter Your Email"}
-              label={"Email"}
-              onChange={(e) => handleEmail(e.target.value)}
-              required={false} />
-
-            <InputComponent
-              type={"password"}
-              input_id={"password"}
-              placeholder={"Enter Your Password"}
-              label={"Password"}
-              onChange={(e) => setPassword(e.target.value)}
-              required={true} />
-            <div>
-              <a href="/forgotpassword">
-                <h6 style={{ textAlign: 'right' }}>Forgot Password ?</h6>
-              </a>
+        </Row>
+        {!isMobile &&
+          <Row className='justify-content-center'>
+            <div className="vector-wrapper">
+              <img src={login_vec} alt="login-vector" />
             </div>
-
-            {error && <div className="error">{error}</div>}
-            <button className={'btn px-5 py-2 bg-color-sec'} type="submit"><span
-              className='fs-7 text-uppercase fw-bold color-pri'>Login</span></button>
-          </form>
-        </div>
+          </Row>
+        }
+        <Row className='justify-content-center text-center'>
+          <label>New to beaware? <a href="/signup">Sign Up</a></label>
+        </Row>
       </Col>
-    </Row>
+      <Col className="form-container col-lg-7">
+        <Row className='vh-100 d-flex align-items-center'>
+          <div>
+            <h2 className='text-center form-heading text-uppercase'>SIGN IN</h2>
+            <div >
+              <Row className='justify-content-center'>
+                <InputComponent
+                  type={"email"}
+                  input_id={"email"}
+                  placeholder={"Enter Your Email"}
+                  centered={true}
+                  label={"Email"}
+                  onChange={(e) => handleEmail(e.target.value)}
+                  required={false} />
+              </Row>
+
+              <Row>
+                <InputComponent
+                  type={"password"}
+                  input_id={"password"}
+                  placeholder={"Enter Your Password"}
+                  label={"Password"}
+                  centered={true}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required={true} />
+              </Row>
+
+              <Row>
+                <Col className='col-2'></Col>
+                <Col className='col-8 d-flex flex-row-reverse'>
+                  <a
+                    href="/forgotpassword">
+                    Forgot Password ?
+                  </a>
+                </Col>
+                <Col className='col-2'></Col>
+              </Row>
+
+              <Row>
+                <Col className='col-2'></Col>
+                <Col className='col-8'>
+                  {error && <div className="error">{error}</div>}
+                </Col>
+                <Col className='col-2'></Col>
+              </Row>
+
+              <Row>
+                <Col className='col-2'></Col>
+                <Col className='col-8 d-flex flex-row-reverse'>
+                  <div>
+                    <button
+                      className={'btn px-5 py-2 my-3 bg-color-sec'}
+                      type="submit"
+                      onClick={handleSubmit} >
+                      <span
+                        className='fs-7 text-uppercase fw-bold color-pri'>
+                        Login
+                      </span>
+                    </button>
+                  </div>
+                </Col>
+                <Col className='col-2'></Col>
+              </Row>
+            </div>
+          </div>
+        </Row>
+      </Col>
+    </Row >
   );
 
 };
