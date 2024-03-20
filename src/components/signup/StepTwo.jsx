@@ -78,25 +78,29 @@ const StepOne = ({ userId }) => {
 
   return (
     <>
-      <InputComponent
-        type={"text"}
-        input_id={"stream-name"}
-        placeholder={"Stream Name"}
-        label={"Stream Name"}
-        centered={true}
-        onChange={(e) => handleName(e.target.value)}
-        disabled={loading}
-        required={true} />
+      <Row>
+        <InputComponent
+          type={"text"}
+          input_id={"stream-name"}
+          placeholder={"Stream Name"}
+          label={"Stream Name"}
+          centered={true}
+          onChange={(e) => handleName(e.target.value)}
+          disabled={loading}
+          required={true} />
+      </Row>
+      <Row>
 
-      <InputComponent
-        type={"text"}
-        input_id={"logo-url"}
-        placeholder={"Paste Logo URL"}
-        label={"Logo URL"}
-        centered={true}
-        onChange={(e) => handleLogoUrl(e.target.value)}
-        disabled={loading}
-        required={true} />
+        <InputComponent
+          type={"text"}
+          input_id={"logo-url"}
+          placeholder={"Paste Logo URL"}
+          label={"Logo URL"}
+          centered={true}
+          onChange={(e) => handleLogoUrl(e.target.value)}
+          disabled={loading}
+          required={true} />
+      </Row>
 
       <ColorPickerComponent
         type={"color"}
@@ -108,16 +112,30 @@ const StepOne = ({ userId }) => {
         disabled={loading}
         required={true} />
 
-      {error && <div className="error">{error}</div>}
+      <Row>
+        <Col className='col-2'></Col>
+        <Col className='col-8'>
+          {error && <div className="error">{error}</div>}
+        </Col>
+        <Col className='col-2'></Col>
+      </Row>
 
-      <button
-        className={'btn px-5 py-2 bg-color-sec'}
-        type="submit"
-        onClick={handleSignUp2}
-        disabled={loading}
-      >
-        <span className='fs-7 text-uppercase fw-bold color-pri'>Sign Up</span>
-      </button>
+      <Row>
+        <Col className='col-2'></Col>
+        <Col className='col-8 d-flex flex-row-reverse'>
+          <button
+            className={'btn px-5 py-2 my-3 bg-color-sec'}
+            type="submit"
+            onClick={handleSignUp2}
+            disabled={error ? true : false || loading}
+          >
+            <span className='fs-7 text-uppercase fw-bold color-pri'>
+              Sign Up
+            </span>
+          </button>
+        </Col>
+        <Col className='col-2'></Col>
+      </Row>
     </>);
 }
 

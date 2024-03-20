@@ -13,6 +13,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   const componentDidMount = () => {
@@ -28,6 +29,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       if (userCredential.user.uid) {
@@ -38,6 +40,7 @@ const Login = () => {
       console.error('Error signing in:', error.message);
       setError('Invalid email or password.');
     }
+    setLoading(false);
   };
 
   const handleEmail = (value) => {
@@ -47,12 +50,13 @@ const Login = () => {
       setError('Invalid email format.');
       return;
     }
+    setError('');
     setEmail(value);
   }
   return (
     <Row className='landing'>
-      <Col className='logo-container col-lg-5 p-5'>
-        <Row className='justify-content-center text-center'>
+      <Col className={'logo-container p-5 ' + (isMobile ? 'col-sm-1' : 'col-lg-5')} >
+        <Row className={'justify-content-center text-center ' + (isMobile ? ' py-3' : '')}>
           <div>
             <img src={logo} alt="logo" />
           </div>
@@ -64,12 +68,12 @@ const Login = () => {
             </div>
           </Row>
         }
-        <Row className='justify-content-center text-center'>
+        <Row className={'justify-content-center text-center ' + (isMobile ? ' py-2' : '')}>
           <label>New to beaware? <a href="/signup">Sign Up</a></label>
         </Row>
       </Col>
-      <Col className="form-container col-lg-7">
-        <Row className='vh-100 d-flex align-items-center'>
+      <Col className={'form-container ' + (isMobile ? 'col-sm-11' : 'col-lg-7')}>
+        <Row className={'d-flex align-items-center' + (!isMobile && ' vh-100')}>
           <div>
             <h2 className='text-center form-heading text-uppercase'>SIGN IN</h2>
             <div >
@@ -121,6 +125,7 @@ const Login = () => {
                     <button
                       className={'btn px-5 py-2 my-3 bg-color-sec'}
                       type="submit"
+                      disabled={error ? true : false || loading}
                       onClick={handleSubmit} >
                       <span
                         className='fs-7 text-uppercase fw-bold color-pri'>

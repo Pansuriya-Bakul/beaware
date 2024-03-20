@@ -111,7 +111,7 @@ const StepOne = ({ setSuccess, setUserId }) => {
             className={'btn px-5 py-2 my-3 bg-color-sec'}
             type="submit"
             onClick={handleSignUp1}
-            disabled={error ? true : false}
+            disabled={error ? true : false || loading}
           >
             <span className='fs-7 text-uppercase fw-bold color-pri'>
               Next

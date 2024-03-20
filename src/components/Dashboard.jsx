@@ -73,7 +73,7 @@ const Dashboard = () => {
     updateProfile(auth.currentUser, userDetails);
   };
 
-  const resetDetials = () => {
+  const resetDetails = () => {
     // Refresh user details
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -185,7 +185,7 @@ const Dashboard = () => {
                 required={true} />
 
               <div className='dashboard-buttons'>
-                <Button variant="outline-primary" size="lg" type="reset" onClick={resetDetials} className={'dashboard-button'}>Cancel</Button>
+                <Button variant="outline-primary" size="lg" type="reset" onClick={resetDetails} className={'dashboard-button'}>Cancel</Button>
                 <Button variant="primary" type="submit" size="lg" onClick={updateDetails} className={'dashboard-submit'}>UPDATE</Button>
               </div>
             </form>
@@ -200,15 +200,13 @@ const Dashboard = () => {
         <div className="dashboard-navbar">
           <img src={logo} alt="logo" />
         </div>
-        <Nav variant="tabs" defaultActiveKey="update_profile" className="flex-row">
+        <Nav variant="tabs" defaultActiveKey="update_profile" className="d-flex align-items-center nav-bar-bg">
           <Nav.Link eventKey="update_profile" onClick={() => setShowStream(false)}>Update Profile</Nav.Link>
           <Nav.Link eventKey="stream_settings" onClick={() => setShowStream(true)}>Stream Settings</Nav.Link>
-          <div className='log-out-container'>
-            <Button size='sm' variant='outline-secondary' onClick={logout}>LOG OUT</Button>
-          </div>
+          <Button size='sm' variant='outline-secondary' className='ml-auto' onClick={logout}>LOG OUT</Button>
         </Nav>
       </Col>
-      {showStream ? <Col className="dashboard-container-right">
+      {showStream ? <Col className="dashboard-container-right px-5 mb-auto">
         <div className="dashboard-form-wrapper">
           <div className='dashboard-header'>STREAM SETTINGS</div>
           <InputComponent
@@ -235,8 +233,8 @@ const Dashboard = () => {
         </div>
       </Col>
         :
-        <Col className="dashboard-container-right">
-          <div className='dashboard-header'>HELLO, <p className='name'>{name.toUpperCase()}</p></div>
+        <Col className="dashboard-container-right px-5 mb-auto">
+          <div className='dashboard-header'>HELLO, <p className='name'>{name?.toUpperCase() || email?.split('@')[0]}</p></div>
           <div className="dashboard-form-wrapper">
             <form >
               <InputComponent
@@ -245,7 +243,6 @@ const Dashboard = () => {
                 placeholder={"Enter Your Email"}
                 value={email}
                 label={"Email"}
-                v
                 onChange={(e) => setEmail(e.target.value)}
                 required={false} />
               <InputComponent
@@ -264,7 +261,6 @@ const Dashboard = () => {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 required={false} />
-
               <InputComponent
                 type={"password"}
                 input_id={"password"}
@@ -273,7 +269,7 @@ const Dashboard = () => {
                 value={"*************"}
                 required={true} />
               <div className='dashboard-buttons'>
-                <Button variant="outline-primary" size="sm" type="reset" onClick={resetDetials} className={'dashboard-button'}>Cancel</Button>
+                <Button variant="outline-primary" size="sm" type="reset" onClick={resetDetails} className={'dashboard-button'}>Cancel</Button>
                 <Button variant="primary" type="submit" size="sm" onClick={updateDetails} className={'dashboard-submit'}>UPDATE</Button>
               </div>
             </form>
