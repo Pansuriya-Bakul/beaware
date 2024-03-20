@@ -234,6 +234,14 @@ input:focus {
 }
 
 @media (max-width: 600px) {
+  body {
+    background-color: #1b4375 !important;
+  }
+
+  .landing {
+    height: 100vh !important;
+  }
+
   .log-out-container {
     height: fit-content;
   }
@@ -242,22 +250,29 @@ input:focus {
     padding-left: 10px !important;
   }
 
+  .logo-container {
+    padding: 0 !important;
+    padding-top: 1em !important;
+    display: flex;
+    flex-direction: column;
+    height: fit-content !important;
+    justify-content: space-evenly;
+    background-color: #fff !important;
+  }
+
   .dashboard-container {
     padding: 0 !important;
+    padding-top: 1em !important;
     display: flex;
     flex-direction: column;
     height: fit-content !important;
     font-size: 12px !important;
     justify-content: space-evenly;
+    background-color: #fff !important;
   }
 
-  .flex-row {
-    width: 100vw;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px !important;
+  .nav-bar-bg {
     background-color: #173964;
-    padding-bottom: 0px !important;
   }
 
   .log-out-container .btn {
@@ -267,7 +282,6 @@ input:focus {
   .dashboard-header .name,
   .dashboard-header {
     display: inline;
-    color: #a6e4f6;
     padding-bottom: 20px;
     font-family: Nunito Sans;
     font-size: 25px;
@@ -277,6 +291,9 @@ input:focus {
     text-align: center;
   }
 
+  .dashboard-header .name {
+    color: #a6e4f6;
+  }
   .dashboard-form-wrapper {
     width: 100%;
     text-align: center;
