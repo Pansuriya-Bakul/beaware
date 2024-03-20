@@ -161,7 +161,7 @@ input:focus {
 .log-out-container {
   height: 100%;
   display: flex;
-  align-items: end;
+  align-items: flex-end;
   justify-content: center;
 }
 
@@ -230,12 +230,15 @@ input:focus {
   max-width: 10rem;
   max-height: 42px;
   padding: 0.2rem;
-  /* margin: 0.25em 1em; */
 }
 
 @media (max-width: 600px) {
   body {
     background-color: #1b4375 !important;
+  }
+
+  .form-color {
+    max-width: 5rem;
   }
 
   .landing {

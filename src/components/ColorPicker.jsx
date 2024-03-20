@@ -22,7 +22,7 @@ export default function ColorPickerComponent({ input_id, label, centered, placeh
                     />
                     <input
                         type="color"
-                        className='form-input form-color'
+                        className='form-input form-text form-color'
                         id={input_id + "-box"}
                         name={input_id}
                         placeholder={placeholder ? placeholder : ""}

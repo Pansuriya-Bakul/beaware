@@ -53,6 +53,7 @@ const Login = () => {
     setError('');
     setEmail(value);
   }
+
   return (
     <Row className='landing'>
       <Col className={'logo-container p-5 ' + (isMobile ? 'col-sm-1' : 'col-lg-5')} >
