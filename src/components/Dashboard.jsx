@@ -6,76 +6,86 @@ import InputComponent from './Input';
 import logo from '../style/logo.png';
 import { Row, Col, Nav, Button } from 'react-bootstrap';
 import QRCode from 'qrcode.react';
-import { updateProfile } from 'firebase/auth';
+import { updateProfile, onAuthStateChanged } from 'firebase/auth';
 import ColorPickerComponent from './ColorPicker';
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [showStream, setShowStream] = useState(false);
+  const [streamName, setStreamName] = useState('');
+  const [streamURL, setStreamURL] = useState('');
+  const [streamColor, setStreamColor] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [showStream, setShowStream] = useState(false);
-  const [streamName, setStreamName] = useState('');
-  const [streamColor, setStreamColor] = useState('');
   const [isMobile, setIsMobile] = useState(false);
 
-  const componentDidMount = () => {
-    setIsMobile(window.innerWidth < 1200 ? true : false);
-    window.addEventListener('resize', () => {
-      setIsMobile(window.innerWidth < 1200 ? true : false);
-    }, false);
-  };
-  
-  const updateDetails = () => {
-    const userDetails = {
-      displayName: name,
-      email: email,
-      phoneNumber: phone,
-    }
-    updateProfile(auth.currentUser, userDetails);
-  }
+  const flyerLink = `https://conferencecaptioning.com/flyer.pdf`;
 
-  const resetDetials = () => {
-    getUserDetails();
-  }
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { email, displayName, phoneNumber } = user;
+        setEmail(email);
+        setName(displayName || email.split('@')[0]);
+        setPhone(phoneNumber);
+      } else {
+        navigate('/login');
+      }
+    });
+
+    setIsMobile(window.innerWidth < 1200);
+    window.addEventListener('resize', () => {
+      setIsMobile(window.innerWidth < 1200);
+    });
+
+    return unsubscribe;
+  }, [navigate]);
 
   useEffect(() => {
     const fetchStream = async () => {
       try {
         const streamsCollectionRef = collection(db, 'streams');
         const streamsQuery = query(streamsCollectionRef, where('userId', '==', auth.currentUser.uid));
-
-        const userStreams = [];
         const querySnapshot = await getDocs(streamsQuery);
 
         querySnapshot.forEach((doc) => {
-          userStreams.push({ id: doc.id, ...doc.data() });
-        });
-
-        const data = userStreams[0];
-        if (data) {
+          const data = doc.data();
+          console.log('Stream data:', data);
           setStreamName(data.name);
           setStreamColor(data.streamColor);
-        }
+          setStreamURL("https://conferencecaptioning.com/" + data.name);
+        });
       } catch (error) {
         console.error('Error fetching stream details:', error);
       }
     };
 
-    getUserDetails();
-    fetchStream();
-    componentDidMount();
-  }, []);
+    return fetchStream;
+  }, [showStream]);
 
-  const getUserDetails = () => {
-    if (auth.currentUser) {
-      setEmail(auth.currentUser.email);
-      setName(auth.currentUser.displayName || auth.currentUser.email.split('@')[0]);
-      setPhone(auth.currentUser.phoneNumber || '1234567890');
-    } else {
-      navigate('/login');
-    }
-  }
+  const updateDetails = () => {
+    const userDetails = {
+      displayName: name,
+      email: email,
+      phoneNumber: phone,
+    };
+    updateProfile(auth.currentUser, userDetails);
+  };
+
+  const resetDetials = () => {
+    // Refresh user details
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { email, displayName, phoneNumber } = user;
+        setEmail(email);
+        setName(displayName || email.split('@')[0]);
+        setPhone(phoneNumber || undefined);
+      } else {
+        navigate('/login');
+      }
+    });
+  };
 
   const logout = () => {
     auth.signOut();
@@ -85,6 +95,7 @@ const Dashboard = () => {
   return !isMobile ? (
     // Desktop View
     <Row className='landing'>
+      {/* Left side navigation */}
       <Col className='dashboard-container'>
         <div className="dashboard-navbar">
           <img src={logo} alt="logo" />
@@ -97,36 +108,46 @@ const Dashboard = () => {
           <Button size='lg' variant='outline-primary' className='log-out' onClick={logout}>LOG OUT</Button>
         </div>
       </Col>
-      {showStream ? <Col xs={9} className="dashboard-container-right">
-        <div className="dashboard-form-wrapper">
-          <div className='dashboard-header'>STREAM SETTINGS</div>
-          <InputComponent
-            type={"text"}
-            className={'dashboard-stream-name'}
-            input_id={"stream-name"}
-            placeholder={"Stream Name"}
-            value={streamName}
-            label={"Stream Name"}
-            disabled={true}
-            required={true} />
-          <ColorPickerComponent
-            className={'dashboard-color-picker'}
-            type={"color"}
-            input_id={"stream-color"}
-            placeholder={"Stream Color"}
-            value={streamColor}
-            label={"Stream Color"}
-            disabled={true}
-            required={true} />
-
-          <div className='qrcode-container'>
-            <QRCode value={streamName} />
-          </div>
-        </div>
-      </Col>
-        :
+      {/* Right side content */}
+      {showStream ? (
         <Col xs={9} className="dashboard-container-right">
-          <div className='dashboard-header'>HELLO, <p className='name'>{name.toUpperCase()}</p></div>
+          <div className="dashboard-form-wrapper">
+            <div className='dashboard-header'>STREAM SETTINGS</div>
+            <InputComponent
+              type={"text"}
+              className={'dashboard-stream-name'}
+              input_id={"stream-name"}
+              placeholder={"Stream Name"}
+              value={streamName}
+              label={"Stream Name"}
+              onChange={() => { }}
+              disabled={true}
+              required={true} />
+            <ColorPickerComponent
+              className={'dashboard-color-picker'}
+              type={"color"}
+              input_id={"stream-color"}
+              placeholder={"Stream Color"}
+              value={streamColor}
+              onChange={() => { }}
+              label={"Stream Color"}
+              disabled={true}
+              required={true} />
+
+            <div className='qrcode-container'>
+              <div className='qr-links'>
+                <QRCode className="qr-code" value={streamURL} />
+              </div>
+              <div className="qr-links">
+                <a href={streamURL} className='link'> Go To Stream </a>
+                <a href={flyerLink} className="link">Download Flyer</a>
+              </div>
+            </div>
+          </div>
+        </Col>
+      ) : (
+        <Col xs={9} className="dashboard-container-right">
+          <div className='dashboard-header'>HELLO, <p className='name'>{name ? name.toUpperCase() : email.toUpperCase()}</p></div>
           <div className="dashboard-form-wrapper">
             <form >
               <InputComponent
@@ -136,13 +157,14 @@ const Dashboard = () => {
                 value={email}
                 label={"Email"}
                 disabled={true}
+                onChange={() => { }}
                 required={false} />
               <InputComponent
                 type={"name"}
                 input_id={"name"}
                 placeholder={"Enter Your Name"}
                 label={"name"}
-                defaultValue={name}
+                value={name}
                 onChange={(e) => setName(e.target.value)}
                 required={false} />
               <InputComponent
@@ -153,11 +175,11 @@ const Dashboard = () => {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 required={false} />
-
               <InputComponent
                 type={"password"}
                 input_id={"password"}
                 label={"Password"}
+                onChange={() => { }}
                 disabled={true}
                 value={"*************"}
                 required={true} />
@@ -168,7 +190,8 @@ const Dashboard = () => {
               </div>
             </form>
           </div>
-        </Col>}
+        </Col>
+      )}
     </Row>
   ) : (
     // Mobile View
@@ -207,7 +230,7 @@ const Dashboard = () => {
             required={true} />
 
           <div className='qrcode-container'>
-            <QRCode value={streamName} />
+            <QRCode value={streamURL} />
           </div>
         </div>
       </Col>

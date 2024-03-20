@@ -16,7 +16,7 @@ export default function InputComponent({ input_id, label, type, placeholder, onC
                     name={input_id}
                     placeholder={placeholder ? placeholder : ""}
                     onChange={onChange}
-                    value={value}
+                    defaultValue={value}
                     disabled={disabled ? true : false}
                     required={required ? true : false}
                 />

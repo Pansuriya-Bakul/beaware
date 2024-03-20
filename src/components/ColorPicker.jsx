@@ -14,7 +14,7 @@ export default function ColorPickerComponent({ input_id, label, placeholder, onC
                     className="form-input form-text"
                     type="text"
                     disabled={true}
-                    value={value}
+                    defaultValue={value}
                     id={input_id + "-text"}
                 />
                 <input

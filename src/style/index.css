@@ -121,8 +121,29 @@ input:focus {
 }
 
 .qrcode-container {
+  display: flex;
+  flex-direction: column;
   border: 10px grey;
   margin-top: 50px;
+  padding: 1em;
+  border-radius: 8px;
+}
+
+.qrcode-container canvas,
+.qrcode-container .qr-link {
+  flex: 1;
+}
+
+.qr-link {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  justify-content: center;
+  align-items: center;
+}
+
+.qr-link .link {
+  color: white;
 }
 
 #stream-color {
