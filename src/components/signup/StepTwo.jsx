@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { collection, addDoc } from 'firebase/firestore';
 import { Row, Col } from 'react-bootstrap';
-
+import axios from 'axios' ;
 import { db } from '../../firebase/config';
 import InputComponent from '../Input';
 import ColorPickerComponent from '../ColorPicker';
+
 
 const StepOne = ({ userId }) => {
   const [name, setName] = useState('');
@@ -25,6 +26,30 @@ const StepOne = ({ userId }) => {
     }
 
     setLoading(true);
+
+  //   try {
+  //     // Call the API to create a stream
+  //     const response = await axios.post('https://api.deafassistant.com/stream/CreateStreamWithStyle', {
+  //       name:name,
+  //       logoUrl: logoUrl,
+  //       streamColor: streamColor
+  //     });
+  //
+  //     if (response.status === 200) {
+  //       // Optionally, handle the response if needed
+  //       console.log('Stream created successfully:', response.data);
+  //       navigate('/dashboard');
+  //     } else {
+  //       setError('Failed to create stream. Please try again.');
+  //     }
+  //
+  //   } catch (error) {
+  //     console.error('Error creating stream:', error.message);
+  //     setError('Failed to create stream. Please try again.');
+  //   }
+  //
+  //   setLoading(false);
+  // };
 
     try {
       await addDoc(collection(db, 'streams'), {

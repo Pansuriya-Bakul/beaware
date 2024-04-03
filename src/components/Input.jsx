@@ -12,7 +12,7 @@ export default function InputComponent({ input_id, label, type, placeholder, onC
                         htmlFor={input_id}
                         className="form-label color-sec"
                     >
-                        {label}s
+                        {label}
                     </label>
                     <input
                         className="form-input form-text "

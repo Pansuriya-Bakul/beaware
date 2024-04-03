@@ -17,20 +17,21 @@ const Dashboard = () => {
   const [streamColor, setStreamColor] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  // const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isMobile, setIsMobile] = useState(false);
 
-  const flyerLink = `https://conferencecaptioning.com/flyer.pdf`;
+  const flyerLink = '/assets/ConferenceCaptioning-Instructions.pdf';
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        const { email, displayName, phoneNumber } = user;
+        const { email, displayName } = user;
         setEmail(email);
         setName(displayName || email.split('@')[0]);
-        setPhone(phoneNumber);
+        // setPhone(phoneNumber);
       } else {
         navigate('/login');
       }
@@ -56,7 +57,7 @@ const Dashboard = () => {
           console.log('Stream data:', data);
           setStreamName(data.name);
           setStreamColor('#' + data.streamColor);
-          setStreamURL("https://conferencecaptioning.com/" + data.name);
+          setStreamURL(data.streamURL);
         });
       } catch (error) {
         console.error('Error fetching stream details:', error);
@@ -70,7 +71,7 @@ const Dashboard = () => {
     const userDetails = {
       displayName: name,
       email: email,
-      phoneNumber: phone,
+      // phoneNumber: phone,
     };
     updateProfile(auth.currentUser, userDetails)
       .then(() => setSuccess('Profile updated successfully'))
@@ -81,10 +82,10 @@ const Dashboard = () => {
     // Refresh user details
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const { email, displayName, phoneNumber } = user;
+        const { email, displayName } = user;
         setEmail(email);
         setName(displayName || email.split('@')[0]);
-        setPhone(phoneNumber || undefined);
+        // setPhone(phoneNumber || undefined);
       } else {
         navigate('/login');
       }
@@ -169,18 +170,18 @@ const Dashboard = () => {
                 type={"name"}
                 input_id={"name"}
                 placeholder={"Enter Your Name"}
-                label={"name"}
+                label={"Name"}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required={false} />
-              <InputComponent
-                type={"phone"}
-                input_id={"phone"}
-                placeholder={"Enter Your Phone number"}
-                label={"Phone Number"}
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required={false} />
+              {/*<InputComponent*/}
+              {/*  type={"phone"}*/}
+              {/*  input_id={"phone"}*/}
+              {/*  placeholder={"Enter Your Phone number"}*/}
+              {/*  label={"Phone Number"}*/}
+              {/*  value={phone}*/}
+              {/*  onChange={(e) => setPhone(e.target.value)}*/}
+              {/*  required={false} />d*/}
               <InputComponent
                 type={"password"}
                 input_id={"password"}
@@ -271,14 +272,14 @@ const Dashboard = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required={false} />
-              <InputComponent
-                type={"phone"}
-                input_id={"phone"}
-                placeholder={"Enter Your Phone number"}
-                label={"Phone Number"}
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required={false} />
+              {/*<InputComponent*/}
+              {/*  type={"phone"}*/}
+              {/*  input_id={"phone"}*/}
+              {/*  placeholder={"Enter Your Phone number"}*/}
+              {/*  label={"Phone Number"}*/}
+              {/*  value={phone}*/}
+              {/*  onChange={(e) => setPhone(e.target.value)}*/}
+              {/*  required={false} />*/}
               <InputComponent
                 type={"password"}
                 input_id={"password"}
