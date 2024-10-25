@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.4dd18304.css",
-    "main.js": "/static/js/main.bad21b36.js",
-    "static/js/592.f762cf88.chunk.js": "/static/js/592.f762cf88.chunk.js",
-    "static/media/login-vec.png": "/static/media/login-vec.7e5de2f09e972822a8a3.png",
-    "index.html": "/index.html",
-    "main.4dd18304.css.map": "/static/css/main.4dd18304.css.map",
-    "main.bad21b36.js.map": "/static/js/main.bad21b36.js.map",
-    "592.f762cf88.chunk.js.map": "/static/js/592.f762cf88.chunk.js.map"
+    "main.css": "/beaware/static/css/main.4dd18304.css",
+    "main.js": "/beaware/static/js/main.2bf9d6be.js",
+    "static/js/592.f762cf88.chunk.js": "/beaware/static/js/592.f762cf88.chunk.js",
+    "static/media/login-vec.png": "/beaware/static/media/login-vec.7e5de2f09e972822a8a3.png",
+    "index.html": "/beaware/index.html",
+    "main.4dd18304.css.map": "/beaware/static/css/main.4dd18304.css.map",
+    "main.2bf9d6be.js.map": "/beaware/static/js/main.2bf9d6be.js.map",
+    "592.f762cf88.chunk.js.map": "/beaware/static/js/592.f762cf88.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4dd18304.css",
-    "static/js/main.bad21b36.js"
+    "static/js/main.2bf9d6be.js"
   ]
 }
