@@ -9,11 +9,12 @@ import QRCode from 'qrcode.react';
 import { updateProfile, onAuthStateChanged } from 'firebase/auth';
 import ColorPickerComponent from './ColorPicker';
 
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const [showStream, setShowStream] = useState(false);
   const [streamName, setStreamName] = useState('');
-  const [streamURL, setStreamURL] = useState('');
+  // const [streamURL, setStreamURL] = useState('');
   const [streamColor, setStreamColor] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -57,7 +58,7 @@ const Dashboard = () => {
           console.log('Stream data:', data);
           setStreamName(data.name);
           setStreamColor('#' + data.streamColor);
-          setStreamURL(data.streamURL);
+          // setStreamURL(data.streamURL);
         });
       } catch (error) {
         console.error('Error fetching stream details:', error);
@@ -142,10 +143,10 @@ const Dashboard = () => {
 
             <Row className='mt-5'>
               <Col className='col-5'>
-                <QRCode className="qr-code" value={streamURL} size={160} />
+                <QRCode className="qr-code" value="https://deafassistant.com/londonmosque/" size={160} />
               </Col>
               <Col className="col-7 d-flex flex-column align-items-center">
-                <a href={streamURL} className='link m-auto py-2'> Open Stream </a>
+                <a href='https://deafassistant.com/londonmosque/' className='link m-auto py-2'>Open Stream</a>
                 <a href={flyerLink} className='link m-auto py-2'> Download Flyer </a>
                 <a href={flyerLink} className='link m-auto py-2'> Download QR Image </a>
               </Col>
@@ -153,7 +154,7 @@ const Dashboard = () => {
           </Row>
         </Col>
       ) : (
-        <Col xs={9} className="dashboard-container-right">
+          <Col xs={9} className="dashboard-container-right">
           <div className='dashboard-header'>HELLO, <p className='name'>{name ? name.toUpperCase() : email.toUpperCase()}</p></div>
           <div className="dashboard-form-wrapper">
             <div>
@@ -241,10 +242,10 @@ const Dashboard = () => {
 
           <Row className='d-flex flex-row align-items-center'>
             <Row className='d-flex flex-column align-items-center mt-3'>
-              <QRCode className="qr-code" value={streamURL} size={160} />
+              <QRCode className="qr-code" value="https://deafassistant.com/londonmosque/" size={160} />
             </Row>
             <Row className='d-flex flex-column align-items-center mt-3'>
-              <a href={streamURL} className='link m-auto mb-2 py-2'> Open Stream </a>
+              <a href='https://deafassistant.com/londonmosque/' className='link m-auto py-2'>Open Stream</a>
               <a href={flyerLink} className='link m-auto mb-2 py-2'> Download Flyer </a>
               <a href={flyerLink} className='link m-auto mb-2 py-2'> Download QR Image </a>
             </Row>

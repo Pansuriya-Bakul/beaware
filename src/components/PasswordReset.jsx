@@ -69,7 +69,7 @@ const PasswordReset = () => {
             <h2 className='text-center form-heading text-uppercase'>Forgot Password?</h2>
             <h2 className='text-center form-heading text-uppercase'>No need to worry.</h2>
             {(success)
-              ? (<p>A link has been sent to you on your Email. Redirecting you to Login page.</p>)
+              ? (<p style={{color:'white', justifyContent:'center' ,width:'100%', display:'flex', fontSize:'20px', paddingTop:'20px' }}>A link has been sent to you on your Email. Redirecting you to Login page.</p>)
               : (
                 <div >
                   <Row className='justify-content-center'>
